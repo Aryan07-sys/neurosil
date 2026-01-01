@@ -65,3 +65,52 @@
 .animate-modal-in {
   animation: modal-in 0.35s ease-out forwards;
 }
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-modal-in {
+  animation: modalIn 0.35s ease-out forwards;
+}
+/* ================= GREY WHITE THEME ================= */
+
+body {
+  @apply bg-gray-100 text-gray-800;
+}
+
+/* Smooth fonts */
+* {
+  @apply antialiased;
+}
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+  @apply bg-white text-gray-800;
+}
+
+.dark body {
+  @apply bg-gray-900 text-gray-100;
+}

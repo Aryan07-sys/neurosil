@@ -16,15 +16,15 @@ const projects: Project[] = [
     id: 1,
     title: 'YAGYA – Autonomous Safety & Defense System',
     description:
-      'YAGYA is an advanced autonomous ground-based system developed to reduce human involvement in high-risk and life-threatening environments such as defense operations, disaster response zones, and hazardous industrial areas.',
+      'YAGYA is an advanced autonomous ground-based system designed to reduce human involvement in high-risk environments such as defense zones, disaster response areas, and hazardous industrial sites.',
     tags: ['AI', 'Defense', 'Autonomous Systems'],
     images: ['/images/yagya.jpeg', '/images/yagya2.jpeg'],
     features: [
       'Autonomous navigation in hazardous environments',
       'Real-time obstacle detection and avoidance',
-      'AI-based decision making system',
-      'Live monitoring and remote control',
-      'Modular design for defense and rescue missions',
+      'AI-driven decision-making system',
+      'Live monitoring and remote operation',
+      'Modular design for defense & rescue missions',
     ],
     techStack: [
       'ESP32 / Embedded Controller',
@@ -32,29 +32,19 @@ const projects: Project[] = [
       'Computer Vision (OpenCV)',
       'Machine Learning',
       'Ultrasonic & IR Sensors',
-      'Motor Drivers (BTS7960 / L298N)',
+      'BTS7960 / L298N Motor Drivers',
       'Web-based Control Dashboard',
-      'Wireless Communication (Wi-Fi)',
+      'Wi-Fi Communication',
     ],
-  },
-  {
-    id: 2,
-    title: 'UGV – Unmanned Ground Vehicle',
-    description:
-      'The Unmanned Ground Vehicle (UGV) is a remotely operated and semi-autonomous robotic platform developed for surveillance, reconnaissance, and logistics support.',
-    tags: ['Robotics', 'UGV', 'IoT'],
-    images: [],
   },
 ];
 
-const allTags = Array.from(new Set(projects.flatMap(p => p.tags))).sort();
+const allTags = ['All', ...new Set(projects.flatMap(p => p.tags))];
 
 export default function Projects() {
   const [selectedTag, setSelectedTag] = useState('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [touchStartY, setTouchStartY] = useState<number | null>(null);
 
-  /* Lock background scroll when modal is open */
   useEffect(() => {
     document.body.style.overflow = selectedProject ? 'hidden' : 'auto';
     return () => {
@@ -62,89 +52,98 @@ export default function Projects() {
     };
   }, [selectedProject]);
 
-  const filteredProjects =
+  const filtered =
     selectedTag === 'All'
       ? projects
       : projects.filter(p => p.tags.includes(selectedTag));
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-      <div className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-950 text-gray-800 dark:text-gray-100">
+      <div className="pt-24 pb-16 px-4 max-w-7xl mx-auto">
 
-          {/* Heading */}
-          <div className="text-center mb-12">
-            <h1 className="text-5xl font-bold text-gray-900 mb-4">
-              Our Research Projects
-            </h1>
-            <p className="text-xl text-gray-700 max-w-2xl mx-auto">
-              Flagship innovations developed by our research & robotics team
-            </p>
-          </div>
+        {/* Header */}
+        <div className="text-center mb-14 animate-fade-up">
+          <h1 className="text-5xl font-bold mb-4">Our Research Projects</h1>
+          <p className="text-xl text-gray-600 dark:text-gray-400">
+            Flagship autonomous and robotics innovations
+          </p>
+        </div>
 
-          {/* Filters */}
-          <div className="flex flex-wrap justify-center gap-3 mb-12">
+        {/* Filters */}
+        <div className="flex justify-center gap-3 mb-12 animate-fade-up">
+          {allTags.map(tag => (
             <button
-              onClick={() => setSelectedTag('All')}
-              className={`px-4 py-2 rounded-full font-medium ${
-                selectedTag === 'All'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-white text-gray-700 hover:bg-blue-50'
+              key={tag}
+              onClick={() => setSelectedTag(tag)}
+              className={`px-4 py-2 rounded-full font-medium transition ${
+                selectedTag === tag
+                  ? 'bg-gray-900 text-white dark:bg-gray-700'
+                  : 'bg-white dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'
               }`}
             >
-              All
+              {tag}
             </button>
+          ))}
+        </div>
 
-            {allTags.map(tag => (
-              <button
-                key={tag}
-                onClick={() => setSelectedTag(tag)}
-                className={`px-4 py-2 rounded-full font-medium ${
-                  selectedTag === tag
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-white text-gray-700 hover:bg-blue-50'
-                }`}
-              >
-                {tag}
-              </button>
-            ))}
-          </div>
-
-          {/* Project Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {filteredProjects.map(project => (
+        {/* Cards - Centered when single project */}
+        <div className="flex justify-center">
+          <div className={`grid gap-10 ${filtered.length === 1 ? 'grid-cols-1 max-w-xl' : 'grid-cols-1 md:grid-cols-2 max-w-5xl'}`}>
+            {filtered.map(p => (
               <div
-                key={project.id}
-                className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all"
+                key={p.id}
+                className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 flex flex-col overflow-hidden border border-gray-200 dark:border-gray-800"
               >
-                <div className="relative h-56 bg-gray-100">
-                  {project.images.length > 0 ? (
+                {/* Image */}
+                <div className="h-72 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900 flex items-center justify-center p-4">
+                  {p.images[0] ? (
                     <img
-                      src={project.images[0]}
-                      alt={project.title}
-                      className="w-full h-full object-contain"
+                      src={p.images[0]}
+                      alt={p.title}
+                      className="w-full h-full object-contain rounded-lg"
                     />
                   ) : (
-                    <div className="flex items-center justify-center h-full text-gray-500">
-                      Image Coming Soon
-                    </div>
+                    <span className="text-gray-400">Image Coming Soon</span>
                   )}
                 </div>
 
-                <div className="p-6">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                    {project.title}
-                  </h3>
+                {/* Content */}
+                <div className="p-8 flex flex-col gap-5">
+                  <div>
+                    <h3 className="text-3xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                      {p.title}
+                    </h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">
+                      🚀 Autonomous Research Project
+                    </p>
+                  </div>
 
-                  <p className="text-gray-600 mb-4">
-                    {project.description}
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    {p.description}
                   </p>
 
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tags.map(tag => (
+                  <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-800 rounded-xl p-4">
+                    <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
+                      <li className="flex items-start gap-2">
+                        <span className="text-blue-600 mt-1">✓</span>
+                        <span>Designed for real-world deployment</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-blue-600 mt-1">✓</span>
+                        <span>Research & defense focused architecture</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="text-blue-600 mt-1">✓</span>
+                        <span>Modular and scalable system</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    {p.tags.map(tag => (
                       <span
                         key={tag}
-                        className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm"
+                        className="px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full text-xs font-semibold shadow-md"
                       >
                         {tag}
                       </span>
@@ -152,96 +151,85 @@ export default function Projects() {
                   </div>
 
                   <button
-                    onClick={() => setSelectedProject(project)}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg flex items-center justify-center gap-2"
+                    onClick={() => setSelectedProject(p)}
+                    className="mt-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl"
                   >
-                    View Details <ExternalLink size={16} />
+                    View Details <ExternalLink size={18} />
                   </button>
                 </div>
               </div>
             ))}
           </div>
+        </div>
 
-          {/* Modal */}
-          {selectedProject && (
+        {/* Modal */}
+        {selectedProject && (
+          <div
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center"
+            onClick={() => setSelectedProject(null)}
+          >
             <div
-              className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50"
-              onClick={() => setSelectedProject(null)}
-              onTouchStart={(e) => setTouchStartY(e.touches[0].clientY)}
-              onTouchEnd={(e) => {
-                if (touchStartY && e.changedTouches[0].clientY - touchStartY > 80) {
-                  setSelectedProject(null);
-                }
-                setTouchStartY(null);
-              }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white dark:bg-gray-900 rounded-2xl p-6 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto animate-scale-in relative"
             >
-              <div
-                onClick={(e) => e.stopPropagation()}
-                className="bg-white rounded-2xl max-w-4xl w-full mx-4 p-5
-                           max-h-[90vh] overflow-y-auto relative"
+              <button
+                onClick={() => setSelectedProject(null)}
+                className="absolute top-4 right-4 text-xl"
               >
-                <button
-                  onClick={() => setSelectedProject(null)}
-                  className="absolute top-3 right-3 w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-xl"
-                >
-                  ✕
-                </button>
+                ✕
+              </button>
 
-                <h2 className="text-3xl font-bold mb-4">
-                  {selectedProject.title}
-                </h2>
+              <h2 className="text-3xl font-bold mb-4">
+                {selectedProject.title}
+              </h2>
 
-                {selectedProject.images.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                    {selectedProject.images.map((img, i) => (
-                      <img
+              {selectedProject.images.length > 0 && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                  {selectedProject.images.map((img, i) => (
+                    <img
+                      key={i}
+                      src={img}
+                      className="w-full h-48 object-contain bg-gray-100 dark:bg-gray-800 rounded-xl"
+                    />
+                  ))}
+                </div>
+              )}
+
+              <p className="mb-6 text-gray-600 dark:text-gray-300">
+                {selectedProject.description}
+              </p>
+
+              {selectedProject.features && (
+                <div className="mb-6">
+                  <h3 className="text-xl font-semibold mb-2">Key Features</h3>
+                  <ul className="list-disc list-inside space-y-1">
+                    {selectedProject.features.map((f, i) => (
+                      <li key={i}>{f}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {selectedProject.techStack && (
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">
+                    Technology Stack
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedProject.techStack.map((t, i) => (
+                      <span
                         key={i}
-                        src={img}
-                        className="w-full h-48 object-contain bg-gray-100 rounded-xl"
-                      />
+                        className="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-full text-sm"
+                      >
+                        {t}
+                      </span>
                     ))}
                   </div>
-                ) : (
-                  <div className="h-48 flex items-center justify-center bg-gray-100 rounded-xl mb-4">
-                    Images coming soon
-                  </div>
-                )}
-
-                <p className="text-gray-700">{selectedProject.description}</p>
-
-                {selectedProject.features && (
-                  <div className="mt-6">
-                    <h3 className="font-semibold mb-2">Key Features</h3>
-                    <ul className="list-disc list-inside space-y-1 text-gray-700">
-                      {selectedProject.features.map((f, i) => (
-                        <li key={i}>{f}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {selectedProject.techStack && (
-                  <div className="mt-6">
-                    <h3 className="font-semibold mb-2">Technology Stack</h3>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedProject.techStack.map((t, i) => (
-                        <span
-                          key={i}
-                          className="px-3 py-1 bg-gray-200 rounded-full text-sm"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                <div className="h-6" />
-              </div>
+                </div>
+              )}
             </div>
-          )}
-
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );
