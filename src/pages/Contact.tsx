@@ -88,7 +88,7 @@ export default function Contact() {
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-gray-900 dark:text-gray-100"
-                      placeholder="Your full name"
+                      placeholder="John Doe "
                     />
                   </div>
 
@@ -104,7 +104,7 @@ export default function Contact() {
                       onChange={handleChange}
                       required
                       className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-gray-900 dark:text-gray-100"
-                      placeholder="your.email@example.com"
+                      placeholder="john12@mail.com"
                     />
                   </div>
 
@@ -120,7 +120,7 @@ export default function Contact() {
                       required
                       rows={6}
                       className="w-full px-4 py-3 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none text-gray-900 dark:text-gray-100"
-                      placeholder="Tell us about your project or inquiry..."
+                      placeholder="Tell us about yourself or your project..."
                     />
                   </div>
 
